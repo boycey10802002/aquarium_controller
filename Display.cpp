@@ -7,9 +7,10 @@
 
 #include "AquariumController.h"
 #include "LiquidCrystal_I2C.h"
-#include "NtpClient.h"
+//#include "NtpClient.h"
 
 #include "Display.h"
+
 
 
 
@@ -17,22 +18,25 @@
 void Display::Init(AquariumController* controller)
 {
 	Process::Init(controller);
+	update_interval_ = 100;
+	updates_before_full_refresh = screen_reset_interval_in_seconds / (update_interval_ / 1000.0);	
 	lcd_ = new LiquidCrystal_I2C(0x27, 20, 4);
 	lcd_->init();
 	lcd_->backlight();
 	lcd_->clear();
 	lcd_->print(F("GO"));
+
+	//ntp_client_.Init();
+	//seconds_ = ntp_client_.GetTime();
 	MakeCustomCharacters();
 }
 
 
 void Display::Update()
 {	
-	if (UpdateReady())	
-	{
-		update_count++;		
-		if (update_count >= 10) {
-			update_count = 0;
+	if (UpdateReady()) {
+		if (update_count_ > updates_before_full_refresh) {
+			update_count_ = 0;
 			lcd_->clear();
 		}
 
@@ -49,7 +53,7 @@ void Display::Update()
 		lcd_->setCursor(0, 1);
 		lcd_->print(NtpTime());
 				
-		lcd_->setCursor(0, 2);		
+		lcd_->setCursor(0, 2);
 		lcd_->print(GetFileSizesAsString());
 
 		// for card data
@@ -61,18 +65,32 @@ void Display::Update()
 
 String Display::NtpTime()
 {
-	String msg;
-	/*
-	if (((millis() / 1000) % 2) == 0)
+	millis_accumulator_ += millis() - last_millis_;
+	last_millis_ = millis();
+	bool just_ticked_seconds = false;
+	
+	if (millis_accumulator_ > millis_per_second)
 	{
-		EthernetUDP udp;
-		msg = String(NtpClientClass::ntpUnixTime(udp));
+		Serial.print("Accumulator: ");
+		Serial.println(millis_accumulator_);
+		just_ticked_seconds = true;
+		seconds_++;
+		millis_accumulator_ -= millis_per_second;
+		Serial.print("Accumulator: ");
+		Serial.println(millis_accumulator_);
 	}
-	else
-	{*/
-		msg = F("No ntp response");
-	//}
-	return msg;
+	
+	String msg;
+	if (just_ticked_seconds)
+	{
+		if ((seconds_ % 1000) == 0) {
+			Serial.print("Update UDP: ");
+			Serial.println(seconds_);
+			EthernetUDP udp;
+			seconds_ = ntp_client_.GetTime();
+		}
+	}
+	return String(seconds_);
 }
 
 String Display::MillisToTime()

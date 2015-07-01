@@ -6,7 +6,7 @@
 void Process::Init(AquariumController* controller)
 {
 	update_interval_ = 1000;
-	logging_interval_ = 30000; // 30 sec
+	logging_interval_ = 60000; // 30 sec
 	controller_ = controller;
 }
 

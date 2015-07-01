@@ -12,6 +12,7 @@
 #include "SD.h"
 #include "Process.h"
 #include "LiquidCrystal_I2C.h"
+#include "NtpClient.h"
 
 class AquariumController; // forward dec
 
@@ -32,11 +33,18 @@ private:
 	String PadZeros(int);
 	void MakeCustomCharacters();
 	String NtpTime();
+	
 	LiquidCrystal_I2C* lcd_;
+	NtpClientClass ntp_client_;
 
 
-	int update_count;
-
+	const unsigned short screen_reset_interval_in_seconds = 10;	
+	unsigned update_count_;
+	unsigned updates_before_full_refresh;
+	unsigned long seconds_;
+	unsigned millis_accumulator_;
+	unsigned long last_millis_;
+	const unsigned millis_per_second = 1000;
 };
 
 #endif
