@@ -7,7 +7,7 @@
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -15,43 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.Aquarium Controller.vsarduino.h">
+    <ClInclude Include="Visual Micro\.DS18S20.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AquariumController.h">
+    <ClInclude Include="Alarm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AquariumKeypad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Clock.h">
+    <ClInclude Include="CallbackInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Display.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NtpClient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerPlugs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Process.h">
+    <ClInclude Include="LiquidCrystal_I2C.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TemperatureProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
+    <ClInclude Include="Process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Visual Micro\.DS18S20.vsarduino.h">
+    <ClInclude Include="DallasTemperature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Visual Micro\.src.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Alarm.h">
+    <ClInclude Include="CmdMessenger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,41 +47,26 @@
     <ClCompile Include="AquariumController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AquariumKeypad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Clock.cpp">
+    <ClCompile Include="CallbackInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Display.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NtpClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerPlugs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Process.cpp">
+    <ClCompile Include="LiquidCrystal_I2C.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TemperatureProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
+    <ClCompile Include="Process.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Alarm.cpp">
+    <ClCompile Include="DallasTemperature.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Aquarium Controller.ino" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="Visual Micro\Upload.vmps.xml" />
-    <Xml Include="Visual Micro\Compile.vmps.xml" />
-    <Xml Include="Visual Micro\Configuration.Debug.vmps.xml" />
-    <Xml Include="Visual Micro\Configuration.Release.vmps.xml" />
+    <ClCompile Include="CmdMessenger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ private:
 	EthernetUDP Udp;
 
 public:
-	void Init();
+	bool Init();
 	unsigned long GetTime();
 	unsigned long sendNTPpacket(IPAddress& address);
 };

@@ -1,14 +1,17 @@
 #include "SD.h"
 #include "OneWire.h"
 #include "AquariumController.h"
+#include "Time.h"
 #include "TemperatureProcess.h"
 
 
+TemperatureProcess::TemperatureProcess() : Process("Temp Process") {}
 
 void TemperatureProcess::Init(AquariumController* ac)
 {
 	Process::Init(ac);
-	update_interval_ = 1000;
+	SetUpateInterval(10000);
+	
 
 	sensors_ = new DallasTemperature(new OneWire(DS18S20_Pin));
 	
@@ -28,19 +31,16 @@ void TemperatureProcess::Init(AquariumController* ac)
 }
 
 void TemperatureProcess::Update()
-{
-	if (UpdateReady())
-	{
-		sensors_->requestTemperatures();
+{	
+	sensors_->requestTemperatures();
 
-		if (AsFahrenheit() > 83)
-		{
-			controller_->SetAlarm(alarm_Temperature);
-		}
-		else
-		{
-			controller_->ClearAlarm(alarm_Temperature);
-		}
+	if (AsFahrenheit() > 83)
+	{
+		controller_->SetAlarm(alarm_Temperature);
+	}
+	else
+	{
+		controller_->ClearAlarm(alarm_Temperature);
 	}
 }
 
@@ -56,6 +56,8 @@ float TemperatureProcess::AsCelsius()
 
 void TemperatureProcess::Log()
 {
+	Serial.println(F("LOGGING DISABLED"));
+	/*
 	if (LogReady())
 	{
 		if (SD.exists(TEMPERATURE_FILEPATH))
@@ -64,11 +66,9 @@ void TemperatureProcess::Log()
 			if (log)
 			{
 				Serial.println(F("LOGGING!====="));
-				log.print(millis());
+				log.print(now());
 				log.print("\t");
-				log.println(AsFahrenheit());
-				log.print("\r\n");
-				
+				log.println(AsFahrenheit());				
 			}
 			else
 			{
@@ -85,4 +85,5 @@ void TemperatureProcess::Log()
 			log.println(F("I HAVE STUFF NOW!"));
 		}
 	}
+	*/
 }

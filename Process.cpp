@@ -2,12 +2,16 @@
 // 
 // 
 
+#include "AquariumController.h"
 #include "Process.h"
+
 void Process::Init(AquariumController* controller)
 {
+	initialized_ = true;
+	controller_ = controller;
 	update_interval_ = 1000;
 	logging_interval_ = 60000; // 30 sec
-	controller_ = controller;
+	
 }
 
 
@@ -21,6 +25,7 @@ bool Process::UpdateReady()
 	return false;
 }
 
+/*
 bool Process::LogReady()
 {
 	if (millis() > last_log_time_ + logging_interval_)
@@ -29,4 +34,14 @@ bool Process::LogReady()
 		return true;
 	}
 	return false;
+}
+*/
+
+
+void Process::SetUpateInterval(unsigned long interval) {
+	update_interval_ = interval;
+}
+
+void Process::SetLoggingInterval(unsigned long interval) {
+	logging_interval_ = interval;
 }

@@ -13,26 +13,32 @@ class AquariumController; //forward dec.
 
 class Process
 {
- protected:	 
-	 unsigned long update_interval_;
-	 unsigned long last_update_time_;
-
-	 unsigned long logging_interval_;
-	 unsigned long last_log_time_;
-
-
-	 AquariumController* controller_;
-
- public:
-	 virtual void Init(AquariumController* controller);
+public:
+	virtual void Init(AquariumController* controller);
 	virtual void Update() {}
-	virtual void Log() {}
-	virtual void Alarm() {}
+	//virtual void Log() {}
 	bool UpdateReady();
-	bool LogReady();
+	//bool LogReady();
+	String GetName() { return name_; }
 
+protected:
+	Process(String name) : initialized_(false) {
+		name_ = name;
+	}
+	void SetUpateInterval(unsigned long update_interval);
+	void SetLoggingInterval(unsigned long log_interval);
+	AquariumController* controller_;
 
 private:
+	unsigned long update_interval_;
+	unsigned long last_update_time_;
+
+	unsigned long logging_interval_;
+	unsigned long last_log_time_;	
+	
+	bool initialized_;
+	String name_;
+
 	
 };
 

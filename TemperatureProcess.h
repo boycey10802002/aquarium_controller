@@ -31,6 +31,7 @@ class TemperatureProcess : public Process
 #define TEMP_12_BIT 0x7F // 12 bit
 
  public:
+	 TemperatureProcess();
 	const unsigned short DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
 	
 	virtual void Init(AquariumController* controller);	
@@ -49,7 +50,7 @@ private:
 	DallasTemperature* sensors_;  // on digital pin 2
 	DeviceAddress tank_thermometer_;
 
-	#define TEMPERATURE_FILEPATH "temps.log"
+	//#define TEMPERATURE_FILEPATH "temps.log"
 };
 
 #endif

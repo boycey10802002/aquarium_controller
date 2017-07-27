@@ -1,3 +1,4 @@
+/* 
 #include "Alarm.h"
 
 
@@ -19,3 +20,4 @@ void AudioAlarm::Update(float temp)
 		}
 	}
 }
+*/
