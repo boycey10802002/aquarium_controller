@@ -39,17 +39,17 @@ void AquariumController::Init()
 	//Alarm.timerRepeat(0, 0, 5, (OnTick_t)&PowerPlugsClass::Power4Toggle);
 	
 	// Whites On/off
-	Alarm.alarmRepeat(17, 0, 0, (OnTick_t)&PowerPlugsClass::Power1On);
-	Alarm.alarmRepeat(0, 1, 0, (OnTick_t)&PowerPlugsClass::Power1Off);
+	Alarm.alarmRepeat(12, 0, 0, (OnTick_t)&PowerPlugsClass::Power1On);
+	Alarm.alarmRepeat(6, 1, 0, (OnTick_t)&PowerPlugsClass::Power1Off);
 	
 	// Blues On/Off
-	Alarm.alarmRepeat(16, 0, 0, (OnTick_t)&PowerPlugsClass::Power2On);
-	Alarm.alarmRepeat(1, 1, 0, (OnTick_t)&PowerPlugsClass::Power2Off);
+	Alarm.alarmRepeat(11, 0, 0, (OnTick_t)&PowerPlugsClass::Power2On);
+	Alarm.alarmRepeat(7, 1, 0, (OnTick_t)&PowerPlugsClass::Power2Off);
 	
 
 	// Moon On/Off	
-	Alarm.alarmRepeat(6, 30, 0, (OnTick_t)&PowerPlugsClass::Power3On);
-	Alarm.alarmRepeat(12, 0, 0, (OnTick_t)&PowerPlugsClass::Power3Off);	
+	Alarm.alarmRepeat(0, 0, 0, (OnTick_t)&PowerPlugsClass::Power3On);
+	Alarm.alarmRepeat(6, 0, 0, (OnTick_t)&PowerPlugsClass::Power3Off);	
 
 
 	//SD.begin(4);

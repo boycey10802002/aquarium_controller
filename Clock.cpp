@@ -5,18 +5,32 @@
 
 #include <Time.h>
 #include "TimeAlarms.h"
-
 #include "Clock.h"
 
 
 
-/*
-void AquariumClock::init(){}
-*/
+
+//void AquariumClock::init(){}
+	
 
 
-void AquariumClock::SetTime()
-{
+void AquariumClock::SetTime(DateTime n)
+{	
+	Serial.print(n.year());
+	Serial.print("-");
+	Serial.print(n.month());
+	Serial.print("-");
+	Serial.print(n.day());
+	Serial.print(" ");
+	Serial.print(n.hour());
+	Serial.print(":");
+	Serial.print(n.minute());
+	Serial.print(":");
+	Serial.println(n.second());
+
+	/*
+
+
 	Serial.println("Initializing time to roughly:");
 	Serial.println(__DATE__);
 	String ts = __TIME__;
@@ -25,6 +39,7 @@ void AquariumClock::SetTime()
 	Serial.println(split1);
 	Serial.println(split2);
 
+
 	int h = atoi(ts.substring(0, split1).c_str());
 	int m = atoi(ts.substring(split1 + 1, split2).c_str());
 	int s = atoi(ts.substring(split2 + 1).c_str());
@@ -32,7 +47,9 @@ void AquariumClock::SetTime()
 
 
 	Serial.println(__TIME__);
-	setTime(h, m, s, 9, 4, 2016);	
+	*/
+	//setTime(h, m, s, 9, 4, 2016);	
+	setTime(n.hour(), n.minute(), n.second(), n.day(), n.month(), n.year());
 
 	timeStatus_t time_status = timeStatus();
 	switch (time_status)	{

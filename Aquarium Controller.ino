@@ -9,7 +9,7 @@
 #include <SPI.h>
 #include <SD.h>
 
-#include <CmdMessenger.h>
+//#include <CmdMessenger.h>
 #include <DallasTemperature.h>
 
 #include <Time.h>
@@ -17,6 +17,7 @@
 #include <Keypad.h>
 
 #include <LiquidCrystal_I2C/LiquidCrystal_I2C.h>
+#include <RTClib.h>
 
 
 #include "Utils.h"
@@ -34,7 +35,10 @@
 
 //Temperature chip i/o
 AquariumController controller;
-CmdMessenger cmd_messenger = CmdMessenger(Serial);
+
+AquariumClock clock;
+RTC_DS3231 rtc;
+
 unsigned long prevous_sample_millis;
 unsigned long sample_interval = 100;
 bool aquire_data = true;
@@ -44,60 +48,23 @@ int cooling_fans = true;
 
 const int cooling_fan_pin = 8;
 
-//Keypad keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
-/* 
-enum commands
-{
-	kAcknowledge = 0,
-	kError,
-	kSetPowerPlugState,
-	kGetCurrentTemperature,
-	kGetCurrentTemperatureResponse,
-	KGetAllTemperatures,
-	kSetCoolingFans
-};
 
-void attachCallbacks()
-{
-	cmd_messenger.attach(OnUnknownCommand);
-	cmd_messenger.attach(OnArduinoReady);
-	cmd_messenger.attach(kSetPowerPlugState, OnSetPowerPlugState);
-	cmd_messenger.attach(kGetCurrentTemperature, OnGetCurrentTemperature);
-	cmd_messenger.attach(KGetAllTemperatures, OnGetAllTemperatures);
-	cmd_messenger.attach(kSetCoolingFans, SetCoolingFans);
+
+
+void CheckClock() {
+	Serial.print(year());
+	Serial.print("-");
+	Serial.print(month());
+	Serial.print("-");
+	Serial.print(day());
+	Serial.print(" ");
+	Serial.print(hour());
+	Serial.print(":");
+	Serial.print(minute());
+	Serial.print(":");
+	Serial.println(second());
 }
-
-
-// Callbacks ========================================
-void OnUnknownCommand()
-{
-	cmd_messenger.sendCmd(kError, "Command without callback");
-}
-
-void OnArduinoReady()
-{
-	cmd_messenger.sendCmd(kAcknowledge, "Arduino Ready");
-}
-
-void OnSetPowerPlugState()
-{
-	//controller.DisplayMessage("SET POWER");
-	uint8_t plug_id = cmd_messenger.readInt16Arg();
-	bool plug_state = cmd_messenger.readBoolArg();
-	controller.SetPlugState(plug_id, plug_state);
-	cmd_messenger.sendCmd(kAcknowledge, " 'SET POWER' Command Acknowledged");
-}
-
-void OnGetCurrentTemperature() {
-	Serial.println("GET TEMPERATURE");
-	cmd_messenger.sendCmd(kAcknowledge, "GetTemp");
-	//process_queue = true;
-	SendTemperatures();
-}
-
-void OnGetAllTemperatures() { Serial.println("GET ALL TEMPERATURES"); }
-*/
 
 void OnSetCoolingFans()
 {
@@ -126,31 +93,30 @@ void setup(void) {
 	pinMode(cooling_fan_pin, HIGH);
 
 	Serial.begin(115200);	
-
-
-	AquariumClock::SetTime();
 	
-	//Serial.print("Initializing SD card...");
-
-	/*
-	if (!SD.begin(4)) {
-		Serial.println("Card failed, or not present");
-		while (1) { Serial.println("no dice"); }// don't do anything more:
-		return;
+	Serial.println("Loading RTC...");
+	bool is_rtc_working = rtc.begin();
+	delay(1000);
+	Serial.println(rtc.now().minute());
+	
+	if(is_rtc_working == false) {		
+		Serial.println("Cant find RTC");
+		pinMode(13, OUTPUT);
+		while(true){
+			digitalWrite(13, HIGH);
+			delay(100);
+			digitalWrite(13, LOW);
+			delay(100);
+		}
 	}
-	Serial.println("card initialized.");
-	*/
 
+	clock.SetTime(rtc.now());	
 	controller.Init();
 
 	Serial.println("DO THE THINGS!");	
-	Alarm.timerRepeat(0, 0, 15, OnSetCoolingFans);	
-
-
-	//Add new line to every command
-	//cmd_messenger.printLfCr();
-	//attachCallbacks();
-	//cmd_messenger.sendCmd(kAcknowledge, "cmd_msgr_init");
+	Alarm.timerRepeat(0, 0, 15, OnSetCoolingFans);
+	//Alarm.timerRepeat(0, 0, 33, CheckClock);
+	
 }
 
 void loop(void) {
@@ -159,37 +125,5 @@ void loop(void) {
 	// the 'Update' or 'check for alarm' function for the TimeAlarms Class
 	Alarm.delay(0); 
 	// ===========================================================================
-
-	//cmd_messenger.feedinSerialData();
 	controller.Update();
-	//controller.Log();	
-	//ProcessCommandQueue();	
-	//Alarm.delay(100);
 }
-
-/*
-void SendTemperatures()
-{
-	cmd_messenger.sendCmdStart(kGetCurrentTemperatureResponse);	
-	cmd_messenger.sendCmdArg("2015");
-	cmd_messenger.sendCmdArg(12.34);
-	cmd_messenger.sendCmdEnd();
-	controller.SetPlugState(3, true);
-}
-
-void ProcessCommandQueue()
-{
-	/*
-	if (process_queue)
-	{
-		SendTemperatures();
-		process_queue = false;
-	}
-	* /
-}
-
-void SetCoolingFans()
-{
-	bool set_fan = cmd_messenger.readBoolArg();	
-}
-*/

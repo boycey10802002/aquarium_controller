@@ -8,13 +8,18 @@
 
 #include "Time.h"
 #include "TimeAlarms.h"
+#include "RTClib.h"
 
 class AquariumClock
 {
- 
- public:
+protected:
+	
+	//RTC_DS3231 _rtc;
+	
+
+public:
 	//void init();
-	static void SetTime();
+	void SetTime(DateTime time);
 	
 	static String TimeString();
 	static String DateString();
@@ -30,6 +35,8 @@ class AquariumClock
 
 	static void MinuteIncrease();
 	static void MinuteDecrease();
+
+	
 
 	
 };

@@ -6,6 +6,7 @@
 //#include "LiquidCrystal_I2C.h"
 #include <Wire.h>
 #include <LiquidCrystal_I2C/LiquidCrystal_I2C.h>
+#include <LiquidCrystal_I2C/LCD.h>
 //#include "NtpClient.h"
 #include "Clock.h"
 #include "Display.h"
@@ -94,7 +95,7 @@ void Display::DisplayAlarm(byte col, byte row){
 
 void Display::ClearSection(uint8_t col, uint8_t row_start, uint8_t row_end) {
 	if ((update_count_ % screen_refresh_interval) == 0)	{
-		lcd_->setCursor(col, row_start);
+		lcd_->setCursor((unsigned char)col, (unsigned char)row_start);
 		byte c = row_start;
 		while (c <= row_end) {
 			lcd_->write(' ');

@@ -46,7 +46,7 @@ private:
 
 	void DisplayStorageStats(byte col, byte row);
 	void DisplayAlarm(byte col, byte row);
-	void ClearSection(uint8_t col, uint8_t row_start, uint8_t row_end);
+	void ClearSection(byte col, byte row_start, uint8_t row_end);
 
 
 
